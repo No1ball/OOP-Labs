@@ -59,6 +59,8 @@ class ManagerHelper {
     }
     /**
      * Error processing function
+     * @throws MyException
+     * @throws NullPointerException
      * */
     private void checkName(TextField bName) throws MyException, NullPointerException {
         String sName = bName.getText();
