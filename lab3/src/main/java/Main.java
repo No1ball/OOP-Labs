@@ -75,8 +75,8 @@ class ManagerHelper {
 
         panelleft = new JPanel();
         panelleft.setLayout(new BorderLayout());
-        String [] columns = {"id","Name", "Price", "Count Sale", "Total Summ"};
-        String [][] data = {{"id","Name", "Price", "Count Sale", "Total Summ"},
+        String [] columns = {"№","Name", "Price", "Count Sale", "Total Summ"};
+        String [][] data = {{"№","Name", "Price", "Count Sale", "Total Summ"},
                 {"1","Lamp", "189", "3", "567"},
                 {"2","Mobile Phone", "189", "3", "567"},
                 {"","", "", ""}};
