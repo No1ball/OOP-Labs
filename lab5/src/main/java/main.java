@@ -25,7 +25,16 @@ class ManagerHelper {
     private JLabel label;
     private JRadioButton[] radioButton;
 
-
+    private class MyException extends Exception {
+        public MyException() {
+            super ("Вы не ввели параметры поиска");
+        }
+    }
+    private void checkName(TextField bName) throws MyException, NullPointerException {
+        String sName = bName.getText();
+        if (sName.contains("Тест")) throw new MyException();
+        if (sName.length() == 0) throw new NullPointerException();
+    }
     /**
      *  Функция создания графического интерфейса
      *  */
@@ -52,10 +61,10 @@ class ManagerHelper {
 
         panelleft = new JPanel();
         panelleft.setLayout(new BorderLayout());
-        String [] columns = {"Name", "Price", "Count Sale", "Total Summ"};
-        String [][] data = {{"Name", "Price", "Count Sale", "Total Summ"},
-                {"Lamp", "189", "3", "567"},
-                {"Mobile Phone", "189", "3", "567"},
+        String [] columns = {"id","Name", "Price", "Count Sale", "Total Summ"};
+        String [][] data = {{"id" ,"Name", "Price", "Count Sale", "Total Summ"},
+                {"1" ,"Lamp", "189", "3", "567"},
+                {"2", "Mobile Phone", "189", "3", "567"},
                 {"","", "", ""}};
         model = new DefaultTableModel(data, columns);
         info = new JTable(model);
@@ -112,6 +121,19 @@ class ManagerHelper {
         panelright.setLayout(new BorderLayout());
         text = new TextField("");
         text.setPreferredSize(new Dimension(15,30));
+        text.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                try {
+                    checkName(text);
+                }
+                catch(NullPointerException ex) {
+                    JOptionPane.showMessageDialog(ManagHelper, ex.toString());
+                }
+                catch(MyException myEx) {
+                    JOptionPane.showMessageDialog(null, myEx.getMessage());
+                }
+            }
+        });
         String [] dataObj = {"Clients", "Contract", "Device", "First Contact"};
         dataObjList = new JList<String>(dataObj);
         dataObjList.setFixedCellHeight(40);
