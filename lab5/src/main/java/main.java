@@ -3,31 +3,72 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 /** @author Alexey */
+
+/**
+ * Interface creating class
+ * */
 class ManagerHelper {
+    /**Main interface window*/
     private JFrame ManagHelper;
+    /**Main table window*/
     private JTable info;
+    /**Instrument panel*/
     private JToolBar toolBar;
+    /**Scrool*/
     private JScrollBar Scroll;
+    /**Button in instrument panel - file */
     private JButton file;
+    /** Label for scroll event*/
     private Label statusLabel;
+    /** Button in instrument panel to edit*/
     private JButton Edit;
+    /** Button in instrument panel to view*/
     private JButton View;
+    /** Button in instrument panel to help*/
     private JButton Help;
+    /**Secondary panel for right element*/
     private JPanel panelright;
+    /**Secondary panel for left element*/
     private JPanel panelleft;
+    /**List for object*/
     private JList <String> dataObjList;
+    /**Field for search*/
     private TextField text;
+    /**Third panel for right bottom elements*/
     private JPanel rightSouth;
+    /**Button for add new data*/
     private JButton newdata;
+    /**Button for load data*/
     private JButton loadData;
+    /**Button for delete data*/
     private JButton delete;
+    /**Create table*/
     private DefaultTableModel model;
+    /**Text field*/
     private JLabel label;
+    /**Radio button for select data to delete*/
     private JRadioButton[] radioButton;
 
-
     /**
-     *  Функция создания графического интерфейса
+     * My exception class
+     * */
+    private class MyException extends Exception {
+        public MyException() {
+            super ("Вы не ввели параметры поиска");
+        }
+    }
+    /**
+     * Error processing function
+     * @throws MyException
+     * @throws NullPointerException
+     * */
+    private void checkName(TextField bName) throws MyException, NullPointerException {
+        String sName = bName.getText();
+        if (sName.contains("Тест")) throw new MyException();
+        if (sName.length() == 0) throw new NullPointerException();
+    }
+    /**
+     *  Interface creating function
      *  */
     public void show(){
         ManagHelper = new JFrame("Helper");
@@ -52,10 +93,10 @@ class ManagerHelper {
 
         panelleft = new JPanel();
         panelleft.setLayout(new BorderLayout());
-        String [] columns = {"Name", "Price", "Count Sale", "Total Summ"};
-        String [][] data = {{"Name", "Price", "Count Sale", "Total Summ"},
-                {"Lamp", "189", "3", "567"},
-                {"Mobile Phone", "189", "3", "567"},
+        String [] columns = {"id","Name", "Price", "Count Sale", "Total Summ"};
+        String [][] data = {{"id" ,"Name", "Price", "Count Sale", "Total Summ"},
+                {"1" ,"Lamp", "189", "3", "567"},
+                {"2", "Mobile Phone", "189", "3", "567"},
                 {"","", "", ""}};
         model = new DefaultTableModel(data, columns);
         info = new JTable(model);
@@ -68,12 +109,12 @@ class ManagerHelper {
         lefteast.add(Scroll, BorderLayout.EAST);
         statusLabel = new Label();
         statusLabel.setAlignment(Label.CENTER);
-        statusLabel.setSize(15,15);
+        statusLabel.setSize(1,4);
         lefteast.add(statusLabel, BorderLayout.WEST);
 
         Scroll.addAdjustmentListener(new AdjustmentListener (){
             /**
-             * Обработка события прокрутки скролла
+             * Scrolling event processing
              * */
             public void adjustmentValueChanged(AdjustmentEvent event){
                 statusLabel.setText(Integer.toString(event.getValue()));
@@ -83,7 +124,7 @@ class ManagerHelper {
         delete.addActionListener (new ActionListener()
         {
             /**
-             * Обработка события нажатия кнопки для удаления
+             * Delete button event processing
              * */
             public void actionPerformed (ActionEvent event)
             {
@@ -112,13 +153,29 @@ class ManagerHelper {
         panelright.setLayout(new BorderLayout());
         text = new TextField("");
         text.setPreferredSize(new Dimension(15,30));
+        text.addActionListener(new ActionListener() {
+            /**
+             * Text error processing
+             * */
+            public void actionPerformed(ActionEvent arg0) {
+                try {
+                    checkName(text);
+                }
+                catch(NullPointerException ex) {
+                    JOptionPane.showMessageDialog(ManagHelper, ex.toString());
+                }
+                catch(MyException myEx) {
+                    JOptionPane.showMessageDialog(null, myEx.getMessage());
+                }
+            }
+        });
         String [] dataObj = {"Clients", "Contract", "Device", "First Contact"};
         dataObjList = new JList<String>(dataObj);
         dataObjList.setFixedCellHeight(40);
         dataObjList.setBackground(Color.lightGray);
         dataObjList.addMouseListener(new MouseAdapter() {
             /**
-             * Обработка события клика мышью
+             * Mouse click event processing
              * */
             public void mouseClicked(MouseEvent e) {
                 int selected = dataObjList.locationToIndex(e.getPoint());
@@ -147,7 +204,7 @@ class ManagerHelper {
         newdata.addActionListener (new ActionListener()
         {
             /**
-             * Обработка события нажатия на кнопку загрузки данных из файла
+             * Data load from file event processing
              * */
             public void actionPerformed (ActionEvent event)
             {
@@ -160,8 +217,14 @@ class ManagerHelper {
         ManagHelper.setVisible(true);
     }
 }
-public class main {
 
+/**
+ * Create interface, main class
+ * */
+public class main {
+    /**
+     * Call interface create function
+     * */
     public static void main(String[] args) {
         new ManagerHelper().show();
     }
