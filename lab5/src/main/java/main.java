@@ -95,8 +95,8 @@ class ManagerHelper {
         panelleft.setLayout(new BorderLayout());
         String [] columns = {"№","Name", "Price", "Count Sale", "Total Summ"};
         String [][] data = {{"№" ,"Name", "Price", "Count Sale", "Total Summ"},
-                {"№" ,"Lamp", "189", "3", "567"},
-                {"№", "Mobile Phone", "189", "3", "567"},
+                {"1" ,"Lamp", "189", "3", "567"},
+                {"2", "Mobile Phone", "189", "3", "567"},
                 {"","", "", ""}};
         model = new DefaultTableModel(data, columns);
         info = new JTable(model);
