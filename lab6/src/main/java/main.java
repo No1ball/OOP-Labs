@@ -36,10 +36,14 @@ class ManagerHelper {
     private TextField text;
     /**Third panel for right bottom elements*/
     private JPanel rightSouth;
-    /**Button for add new data*/
-    private JButton newdata;
-    /**Button for load data*/
-    private JButton loadData;
+    /**FileDialog for add new data*/
+    private FileDialog newdata;
+    /**FileDialog for load data*/
+    private FileDialog loadData;
+    /** Button for add new data*/
+    private JButton neww;
+    /**Button for load new data*/
+    private JButton load;
     /**Button for delete data*/
     private JButton delete;
     /**Create table*/
@@ -196,19 +200,34 @@ class ManagerHelper {
 
         rightSouth = new JPanel();
         rightSouth.setLayout(new BorderLayout());
-        loadData = new JButton("Load Data");
-        newdata = new JButton("New");
-        rightSouth.add(loadData, BorderLayout.WEST);
-        rightSouth.add(newdata, BorderLayout.EAST);
+        load = new JButton("Load Data");
+        neww = new JButton("New");
+        rightSouth.add(load, BorderLayout.WEST);
+        rightSouth.add(neww, BorderLayout.EAST);
         panelright.add(rightSouth, BorderLayout.SOUTH);
-        newdata.addActionListener (new ActionListener()
+        load.addActionListener (new ActionListener()
         {
             /**
              * Data load from file event processing
              * */
             public void actionPerformed (ActionEvent event)
             {
-                JOptionPane.showInputDialog (ManagHelper, "Укажите название файла: ");
+                loadData = new FileDialog(ManagHelper, "Load data", loadData.LOAD);
+                loadData.setFile("*.txt");
+                loadData.setVisible(true);
+                String fileName = loadData.getDirectory() + loadData.getFile();
+                if (fileName == null) return;
+            }
+        });
+
+        neww.addActionListener(new ActionListener(){
+            public void actionPerformed (ActionEvent event)
+            {
+                newdata = new FileDialog(ManagHelper, "Load data", loadData.SAVE);
+                newdata.setFile("*.txt");
+                newdata.setVisible(true);
+                String fileName = loadData.getDirectory() + loadData.getFile();
+                if (fileName == null) return;
             }
         });
         ManagHelper.add(panelright, BorderLayout.WEST);
