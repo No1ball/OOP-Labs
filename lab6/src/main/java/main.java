@@ -2,6 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
+import java.io.*;
 /** @author Alexey */
 
 /**
@@ -217,17 +218,51 @@ class ManagerHelper {
                 loadData.setVisible(true);
                 String fileName = loadData.getDirectory() + loadData.getFile();
                 if (fileName == null) return;
+                try{
+                    BufferedReader reader = new BufferedReader(new FileReader(fileName));
+                    model.removeRow(model.getRowCount()-1);
+                    String row;
+                    do{
+                        row = reader.readLine();
+                        if(row != null){
+                            String[]text = row.split(";");
+                            String name = text[0];
+                            String price = text[1];
+                            String CountSale = text[2];
+                            String TotalSumm = text[3];
+                            model.addRow(new String[]{String.valueOf(model.getRowCount()),name, price, CountSale, TotalSumm});
+                        }
+                    }
+                    while(row != null);
+                    reader.close();
+                    model.addRow(new String[]{" "," ", " ", " ", " "});
+                } catch(FileNotFoundException e){
+                    e.printStackTrace();
+                } catch(IOException e){e.printStackTrace();}
             }
         });
 
         neww.addActionListener(new ActionListener(){
             public void actionPerformed (ActionEvent event)
             {
-                newdata = new FileDialog(ManagHelper, "Load data", loadData.SAVE);
+                newdata = new FileDialog(ManagHelper, "Load data", newdata.SAVE);
                 newdata.setFile("*.txt");
                 newdata.setVisible(true);
-                String fileName = loadData.getDirectory() + loadData.getFile();
+                String fileName = newdata.getDirectory() + newdata.getFile();
                 if (fileName == null) return;
+                try{
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+                    for (int i = 0; i < model.getRowCount()-1;i++){
+                        for(int j = 0; j < model.getColumnCount(); j++) {
+                            writer.write((String)model.getValueAt(i,j));
+                            writer.write(";");
+                        }
+                        writer.write("\n");
+                    }
+                    writer.close();
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
             }
         });
         ManagHelper.add(panelright, BorderLayout.WEST);
