@@ -253,7 +253,7 @@ class ManagerHelper {
                 try{
                     BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
                     for (int i = 0; i < model.getRowCount()-1;i++){
-                        for(int j = 0; j < model.getColumnCount(); j++) {
+                        for(int j = 1; j < model.getColumnCount(); j++) {
                             writer.write((String)model.getValueAt(i,j));
                             writer.write(";");
                         }
