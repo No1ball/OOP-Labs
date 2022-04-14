@@ -209,6 +209,7 @@ class ManagerHelper {
         load.addActionListener (new ActionListener()
         {
             /**
+             * @params event
              * Data load from file event processing
              * */
             public void actionPerformed (ActionEvent event)
@@ -243,9 +244,13 @@ class ManagerHelper {
         });
 
         neww.addActionListener(new ActionListener(){
+            /**
+             * @params event
+             * function save new data to file
+             * */
             public void actionPerformed (ActionEvent event)
             {
-                newdata = new FileDialog(ManagHelper, "Load data", newdata.SAVE);
+                newdata = new FileDialog(ManagHelper, "new data", newdata.SAVE);
                 newdata.setFile("*.txt");
                 newdata.setVisible(true);
                 String fileName = newdata.getDirectory() + newdata.getFile();
