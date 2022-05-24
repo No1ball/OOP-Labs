@@ -90,11 +90,13 @@ class ManagerHelper {
     /**
      *  Interface creating function
      *  */
-    public void show(){
+    public void show() throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         ManagHelper = new JFrame("Helper");
         ManagHelper.setLocation(430,150);
         ManagHelper.setSize(700,500);
         ManagHelper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 
         file = new JButton("File");
         Edit = new JButton("Edit");
@@ -225,7 +227,7 @@ class ManagerHelper {
         {
             /**
              * @params event
-             * Data load from file event processing
+             * Data load from xml file event processing
              * */
             public void actionPerformed (ActionEvent event)
             {
@@ -260,7 +262,7 @@ class ManagerHelper {
         neww.addActionListener(new ActionListener(){
             /**
              * @params event
-             * function save new data to file
+             * function save new xml data to file
              * */
             public void actionPerformed (ActionEvent event) {
                 Document doc = null;
@@ -307,7 +309,7 @@ public class main {
     /**
      * Call interface create function
      * */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         new ManagerHelper().show();
     }
 }
